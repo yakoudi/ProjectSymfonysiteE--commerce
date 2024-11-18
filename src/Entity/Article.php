@@ -21,18 +21,13 @@ class Article
     private ?string $prix = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Description = null;
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $Date = null;
+    private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Location $Location = null;
-
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Lc $Lc = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;  // New photo field
 
     public function getId(): ?int
     {
@@ -65,48 +60,36 @@ class Article
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): static
+    public function setDescription(string $description): static
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
 
     public function getDate(): ?\DateTimeInterface
     {
-        return $this->Date;
+        return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $Date): static
+    public function setDate(\DateTimeInterface $date): static
     {
-        $this->Date = $Date;
+        $this->date = $date;
 
         return $this;
     }
 
-    public function getLocation(): ?Location
+    public function getPhoto(): ?string
     {
-        return $this->Location;
+        return $this->photo;
     }
 
-    public function setLocation(?Location $Location): static
+    public function setPhoto(?string $photo): static
     {
-        $this->Location = $Location;
-
-        return $this;
-    }
-
-    public function getLc(): ?Lc
-    {
-        return $this->Lc;
-    }
-
-    public function setLc(?Lc $Lc): static
-    {
-        $this->Lc = $Lc;
+        $this->photo = $photo;
 
         return $this;
     }

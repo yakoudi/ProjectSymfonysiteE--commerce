@@ -17,7 +17,7 @@ final class LocationController extends AbstractController
     #[Route(name: 'app_location_index', methods: ['GET'])]
     public function index(LocationRepository $locationRepository): Response
     {
-        return $this->render('location/index.html.twig', [
+        return $this->render('location/dashboard.html.twig.twig.twig', [
             'locations' => $locationRepository->findAll(),
         ]);
     }

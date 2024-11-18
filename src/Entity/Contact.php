@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ContactRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
@@ -14,20 +14,22 @@ class Contact
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $suijet = null;
+    #[Assert\NotBlank]
+    private ?string $subject = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $message = null;
-
-    #[ORM\ManyToOne(inversedBy: 'Contact')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Client $client = null;
 
     public function getId(): ?int
     {
@@ -42,7 +44,6 @@ class Contact
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -54,19 +55,17 @@ class Contact
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
-    public function getSuijet(): ?string
+    public function getSubject(): ?string
     {
-        return $this->suijet;
+        return $this->subject;
     }
 
-    public function setSuijet(string $suijet): static
+    public function setSubject(string $subject): static
     {
-        $this->suijet = $suijet;
-
+        $this->subject = $subject;
         return $this;
     }
 
@@ -78,19 +77,6 @@ class Contact
     public function setMessage(string $message): static
     {
         $this->message = $message;
-
-        return $this;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): static
-    {
-        $this->client = $client;
-
         return $this;
     }
 }

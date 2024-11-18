@@ -17,7 +17,7 @@ final class FactureController extends AbstractController
     #[Route(name: 'app_facture_index', methods: ['GET'])]
     public function index(FactureRepository $factureRepository): Response
     {
-        return $this->render('facture/index.html.twig', [
+        return $this->render('facture/dashboard.html.twig.twig.twig', [
             'factures' => $factureRepository->findAll(),
         ]);
     }

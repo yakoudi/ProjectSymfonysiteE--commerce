@@ -1,0 +1,4 @@
+# config/packages/asset.yaml
+framework:
+  assets:
+    base_path: ''

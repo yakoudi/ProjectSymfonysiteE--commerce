@@ -4,78 +4,47 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
-use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/contact')]
-final class ContactController extends AbstractController
+class ContactController extends AbstractController
 {
-    #[Route(name: 'app_contact_index', methods: ['GET'])]
-    public function index(ContactRepository $contactRepository): Response
+    #[Route('/contact', name: 'contact')]
+    public function contact(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('contact/index.html.twig', [
-            'contacts' => $contactRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_contact_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+        // Créer une nouvelle instance de Contact
         $contact = new Contact();
+
+        // Créer le formulaire basé sur le formulaire ContactType
         $form = $this->createForm(ContactType::class, $contact);
+
+        // Traiter la requête (soumission du formulaire)
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($contact);
-            $entityManager->flush();
+        // Vérifier si le formulaire est soumis et valide
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                // Si le formulaire est valide, on persiste l'objet Contact dans la base de données
+                $em->persist($contact);
+                $em->flush();
 
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+                // Ajouter un message flash pour notifier l'utilisateur du succès
+                $this->addFlash('success', 'Your contact has been sent!');
+
+                // Rediriger l'utilisateur vers la page de contact pour qu'il voie le message de succès
+                return $this->redirectToRoute('contact');
+            } else {
+                // Ajouter un message flash pour notifier l'utilisateur d'une erreur
+                $this->addFlash('error', 'There was an error with your message.');
+            }
         }
 
-        return $this->render('contact/new.html.twig', [
-            'contact' => $contact,
-            'form' => $form,
+        // Renvoyer la vue Twig avec le formulaire
+        return $this->render('client/contact.html.twig', [
+            'form' => $form->createView(),
         ]);
-    }
-
-    #[Route('/{id}', name: 'app_contact_show', methods: ['GET'])]
-    public function show(Contact $contact): Response
-    {
-        return $this->render('contact/show.html.twig', [
-            'contact' => $contact,
-        ]);
-    }
-
-   /* #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ContactType::class, $contact);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('contact/edit.html.twig', [
-            'contact' => $contact,
-            'form' => $form,
-        ]);
-    }
-*/
-    #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
-    public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($contact);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
     }
 }
