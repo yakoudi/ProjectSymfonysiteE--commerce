@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\ContactRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 

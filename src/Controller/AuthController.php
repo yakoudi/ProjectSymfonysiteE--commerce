@@ -27,7 +27,7 @@ class AuthController extends AbstractController
             // Check if the email and password match the hardcoded values
             if ($email === self::USER_EMAIL && $password === self::USER_PASSWORD) {
                 // Redirect to the dashboard on successful login
-                return $this->redirectToRoute('compify');
+                return $this->redirectToRoute('campify');
             }
 
             // Add an error message if the login fails
@@ -43,6 +43,6 @@ class AuthController extends AbstractController
      */
     public function dashboard(): Response
     {
-        return $this->render('client/compify.html.twig');
+        return $this->render('client/index.html.twig');
     }
 }

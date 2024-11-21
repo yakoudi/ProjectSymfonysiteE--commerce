@@ -11,9 +11,7 @@ class ArticleController extends AbstractController
     #[Route('/article', name: 'app_article')]
     public function index(): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ArticleController.php',
-        ]);
+        return $this->render('admin/about.html.twig');
+
     }
 }
