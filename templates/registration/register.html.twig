@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <style>
+        /* Style général de la page */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Conteneur du formulaire */
+        .register-form {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Titre du formulaire */
+        h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Style des champs de formulaire */
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        /* Focus sur les champs de formulaire */
+        .form-control:focus {
+            border-color: #2b8c94;
+            outline: none;
+        }
+
+        /* Style des labels */
+        label {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 5px;
+            display: block;
+            text-align: left;
+        }
+
+        /* Style du bouton de soumission */
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background-color: #2b8c94;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        /* Effet au survol du bouton */
+        .btn-primary:hover {
+            background-color: #227a7a;
+        }
+
+        /* Style des messages d'erreur */
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* Espacement entre les éléments */
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+
+        /* Style de la page mobile */
+        @media (max-width: 600px) {
+            .register-form {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+
+        /* Disposition des champs Name et LastName sur une ligne */
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px; /* Espacement entre les lignes */
+        }
+
+        .form-row .form-control {
+            flex: 1;
+        }
+
+        /* Alignement du champ Agree Terms avec un espacement correct */
+        .agree-terms {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            justify-content: flex-start;
+        }
+
+        .agree-terms input {
+            margin-right: 10px;
+        }
+
+        /* Style des petits textes sous les champs */
+        small {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+
+    <div class="register-form">
+        <h1>Register</h1>
+
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+
+        <!-- Utilisation de la classe form-row pour les champs Name et LastName sur une ligne -->
+        <div class="form-row">
+            {{ form_row(registrationForm.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(registrationForm.lastName, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        {{ form_row(registrationForm.adresse, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(registrationForm.codePostal, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(registrationForm.plainPassword, {'label': 'Password', 'attr': {'class': 'form-control'}}) }}
+
+        <!-- Agreed Terms aligné correctement avec le reste du formulaire -->
+        <div class="agree-terms">
+            {{ form_row(registrationForm.agreeTerms) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+        {{ form_end(registrationForm) }}
+
+        <small>
+            By registering, you agree to our <a href="#">Terms & Conditions</a>.
+        </small>
+    </div>
+{% endblock %}

@@ -27,7 +27,7 @@ class AuthController extends AbstractController
             // Check if the email and password match the hardcoded values
             if ($email === self::USER_EMAIL && $password === self::USER_PASSWORD) {
                 // Redirect to the dashboard on successful login
-                return $this->redirectToRoute('campify');
+                return $this->redirectToRoute('dashboard');
             }
 
             // Add an error message if the login fails

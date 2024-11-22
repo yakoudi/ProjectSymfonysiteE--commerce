@@ -10,15 +10,16 @@
         <![endif]-->
     <title>FREE RESPONSIVE HORIZONTAL ADMIN</title>
     <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="../../public/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" />
     <!-- FONT AWESOME STYLE  -->
-    <link href="../../public/assets/css/font-awesome.css" rel="stylesheet" />
+    <link  href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
     <!-- DATATABLE STYLE  -->
     <link href="../../public/assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
     <link href="../../public/assets/css/style.css" rel="stylesheet" />
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
 
 </head>
 <body>
@@ -53,10 +54,10 @@
                            
                             <li><a href="formproduct.html.twig">ADD PRODUCTS</a></li>
                             <li><a href="productlist.html.twig">PRODUCTS LIST</a></li>
-                            <li><a href="contactlist.html.twig">CONTACTS LIST</a></li>
+                            <li><a  href="{{ path('contactlist') }}">CONTACTS LIST</a></li>
                             <li><a href="locationlist.html.twig">LOCATIONS LIST</a></li>
                             <li><a href="commandelist.html.twig">ORDERS LIST</a></li>
-                             <li><a href="userlist.html">USERS LIST</a></li>
+                             <li><a {{ path('app_user_list') }}>USERS LIST</a></li>
                         </ul>
                     </div>
                 </div>
@@ -86,46 +87,57 @@
                         </div>
                         
                         <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="d-flex justify-content-end mb-4" >
+                                    <form method="GET" action="{{ path('app_user_list') }}" class="d-flex w-50">
+                                        <div class="input-group" style="margin-left: 900px">
+                                            <!-- Icône dans l'input -->
+                                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                            <input type="text" name="search" class="form-control" placeholder="Rechercher par email..." value="{{ app.request.get('search') }}">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
                             <div class="table-responsive">
+
+
                                 <table class="table">
                                     <thead>
+
                                         <tr>
-                                            <th>#</th>
+
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Email</th>
                                             <th>Password</th>
+                                            <th>Adresse</th>
+                                            <th>Code Postale</th>
+                                            <th>#</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="success">
-                                            <td>1</td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                            <td>@fat</td>                                        </tr>
-                                        <tr class="info">
-                                            <td>2</td>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                            <td>@fat</td>
+                                            {% for user in users %}
+                                            <td>{{ user.name }}</td>
+                                            <td>{{ user.lastName }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.password }}</td>
+                                            <td>{{ user.adresse }}</td>
+                                            <td>{{ user.codePostal }}</td>
+                                            <td>
+                                              <a href="{{ path('delete_user' , {'id':user.id}) }}"> Delete </a>
+
+                                            </td>
+
+
+
+
                                         </tr>
-                                        <tr class="warning">
-                                            <td>3</td>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr class="danger">
-                                            <td>4</td>
-                                            <td>John</td>
-                                            <td>Smith</td>
-                                            <td>@jsmith</td>
-                                            <td>@fat</td>
-                                        </tr>
+                                        {% endfor %}
+
                                     </tbody>
                                 </table>
                             </div>

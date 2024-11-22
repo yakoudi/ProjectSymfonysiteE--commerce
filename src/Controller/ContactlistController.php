@@ -11,10 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContactlistController extends AbstractController
 {
     #[Route('/contactlist', name: 'contactlist')]
-    public function index(EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $es): Response
     {
         // Fetch all contacts using the repository
-        $contacts = $em->getRepository(Contact::class)->findAll();
+        $contacts = $es->getRepository(Contact::class)->findAll();
 
         // Render the Twig template and pass the contacts data
         return $this->render('admin/contactlist.html.twig', [
