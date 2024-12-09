@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CampifyController extends AbstractController
 {
-    #[Route('/campify', name: 'campify')]
+    #[Route('/campify', name: 'cam_pify')]
     public function index(): Response
     {
         return $this->render('client/index.html.twig');

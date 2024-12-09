@@ -33,7 +33,9 @@
                 </button>
                 <a class="navbar-brand" href="dashboard.html.twig">
 
-                    <img src="../../public/assets/img/logo.png" />
+                    <a class="navbar-brand" href="{{ path('dashboard') }}">
+                        <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" />
+                    </a>
                 </a>
 
             </div>
@@ -50,14 +52,13 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
-                            <li><a href="dashboard.html.twig" class="menu-top-active">DASHBOARD</a></li>
-                           
-                            <li><a href="formproduct.html.twig">ADD PRODUCTS</a></li>
-                            <li><a href="productlist.html.twig">PRODUCTS LIST</a></li>
-                            <li><a  href="{{ path('contactlist') }}">CONTACTS LIST</a></li>
-                            <li><a href="locationlist.html.twig">LOCATIONS LIST</a></li>
-                            <li><a href="commandelist.html.twig">ORDERS LIST</a></li>
-                             <li><a {{ path('app_user_list') }}>USERS LIST</a></li>
+                            <li><a href="{{ path('dashboard') }}" class="menu-top-active">DASHBOARD</a></li>
+                            <li><a href="{{ path('article') }}">ADD PRODUCTS</a></li>
+                            <li><a href="{{ path('articlelist') }}">PRODUCTS LIST</a></li>
+                            <li><a href="{{ path('contactlist') }}">CONTACTS LIST</a></li>
+                            <li><a href="{{ path('dashboard') }}">LOCATIONS LIST</a></li>
+                            <li><a href="{{ path('dashboard') }}">ORDERS LIST</a></li>
+                            <li><a href="{{ path('app_user_list') }}">USERS LIST</a></li>
                         </ul>
                     </div>
                 </div>
@@ -93,7 +94,8 @@
                                         <div class="input-group" style="margin-left: 900px">
                                             <!-- Icône dans l'input -->
                                             <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                            <input type="text" name="search" class="form-control" placeholder="Rechercher par email..." value="{{ app.request.get('search') }}">
+
+                                            <input type="text" name="search" class="form-control" placeholder="Search by mail..." value="{{ app.request.get('search') }}">
                                         </div>
                                     </form>
                                 </div>

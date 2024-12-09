@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File; // Add this use statement
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -27,7 +27,9 @@ class Article
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photo = null;  // New photo field
+    private ?string $photo = null;
+
+    private ?File $photoFile = null; // This is for handling the file upload
 
     public function getId(): ?int
     {
@@ -93,4 +95,23 @@ class Article
 
         return $this;
     }
+
+// Add getters and setters for the File object
+    public function getPhotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    public function setPhotoFile(?File $photoFile = null): static
+    {
+        $this->photoFile = $photoFile;
+
+        // Si un fichier est défini, mettez à jour le timestamp
+        if ($photoFile) {
+            $this->setPhoto(null); // Efface l'ancienne photo si un nouveau fichier est défini
+        }
+
+        return $this;
+    }
+
 }
