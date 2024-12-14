@@ -32,7 +32,7 @@ class ArticleclientController extends AbstractController
     #[Route('/article/{id}', name: 'article_details')]
     public function details(Article $article): Response
     {
-        return $this->render('client/details.html.twig', [
+        return $this->render('client/product.html.twig', [
             'article' => $article
         ]);
     }

@@ -36,7 +36,7 @@ class PanierController extends AbstractController
         ]);
     }
 
-    #[Route('add/{id}', name: 'cart_add')]
+    #[Route('/cart/add/{id}', name: 'cart_add')]
     public function add($id, SessionInterface $session): Response
     {
         $cart = $session->get('cart', []);
@@ -49,7 +49,7 @@ class PanierController extends AbstractController
         return $this->redirectToRoute('cart');
     }
 
-    #[Route('remove/{id}', name: 'cart_remove')]
+    #[Route('/cart/remove/{id}', name: 'cart_remove')]
     public function remove($id, SessionInterface $session): Response
     {
         $cart = $session->get('cart', []);

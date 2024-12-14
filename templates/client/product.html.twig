@@ -17,7 +17,7 @@
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <!-- Libraries Stylesheet -->
     <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
@@ -168,7 +168,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
-                    <a href="{{ path('campify') }}" class="nav-item nav-link ">Home</a>
+                    <a href="{{ path('cam_pify') }}" class="nav-item nav-link ">Home</a>
                     <a href="{{ path('about') }}" class="nav-item nav-link">About</a>
                     <a href="{{ path('article_client') }}" class="nav-item nav-link"> Tour Shop</a>
                     <a href="{{ path('service') }}" class="nav-item nav-link">Services</a>
@@ -235,10 +235,8 @@
 <!-- Modal -->
 <div class="modal" id="articleModal">
     <div class="modal-content">
-
         <div class="modal-header">
-            <h6 class="modal-title">    Product Details</h6>
-
+            <h6 class="modal-title">Product Details</h6>
             <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -249,10 +247,9 @@
                 <p id="modalArticleDescription"></p>
                 <br>
                 <div class="modal-buttons">
-                    <button class="btn btn-primary btn-sm" type="submit">Location</button>
-                    <button class="btn btn-primary btn-sm" type="submit">Add to cart</button>
+                    <button class="btn btn-primary btn-sm" type="button">Location</button>
+                    <button class="btn btn-primary btn-sm" id="addToCartButton" type="button" onclick="addToCart(this.getAttribute('data-article-id'))">Add to cart</button>
                 </div>
-                <!--   <p class="date" id="modalArticleDate"></p> -->
             </div>
         </div>
     </div>
@@ -285,8 +282,7 @@
                                     <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Tunisia</small>
                                 </div>
                                 <!-- Nom de l'article -->
-                                <a href="{{ path('article_details', {'id': article.id}) }}" class="h5 text-decoration-none">{{ article.name }}</a>
-
+                                <a class="h5 text-decoration-none" href="javascript:void(0);" onclick="openModal('{{ article.id }}', '{{ article.name }}', '{{ article.prix | number_format(2, '.', ',') }}', '{{ article.description }}', '{{ article.photo }}')">{{ article.name }}</a>
                                 <div class="border-top mt-4 pt-4">
 
                                     <div class="d-flex justify-content-between">
@@ -372,11 +368,14 @@
 <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- JavaScript for Modal -->
 <script>
-    function openModal(name, price, description, photo) {
+    function openModal(id, name, price, description, photo) {
         document.getElementById('modalArticleName').textContent = name;
         document.getElementById('modalArticlePrice').textContent = price + ' TND';
         document.getElementById('modalArticleDescription').textContent = description;
         document.getElementById('modalArticleImage').src = '{{ asset('uploads/photos/') }}/' + photo;
+
+        // Stockez l'ID de l'article dans un attribut de données
+        document.getElementById('addToCartButton').setAttribute('data-article-id', id);
 
         document.getElementById('articleModal').style.display = 'flex';
     }
@@ -384,6 +383,14 @@
     function closeModal() {
         document.getElementById('articleModal').style.display = 'none';
     }
+</script>
+<script>
+    function addToCart(articleId) {
+        // Redirect to the add to cart route
+        window.location.href = '/cart/add/' + articleId;
+    }
+
+
 </script><script src="{{ asset('js/contact.js') }}"></script>
 
 </body>
