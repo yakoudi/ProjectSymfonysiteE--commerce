@@ -4,7 +4,7 @@
 
 
 <head>
-    {% block title %}Cart{% endblock %}
+    {% block title %}{% endblock %}
     <meta charset="utf-8">
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -32,13 +32,13 @@
         /* Styles généraux */
 
 
-         .modal-body img {
-             width: 250px;
-             height: 250px;
-             object-fit: cover;
-             border-radius: 8px;
-             margin: 15px;
-         }
+        .modal-body img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 15px;
+        }
 
 
 
@@ -71,9 +71,9 @@
             color: red;
             font-size: 25px;/* Couleur rouge */
         }
-        #passer{
-            margin-left: 1200px;
-            border-radius: 10px;
+        /* Center content inside td */
+        td.text-center {
+            text-align: center;
         }
 
 
@@ -120,10 +120,11 @@
 
 
 <!-- Navbar Start -->
+<!-- Navbar Start -->
 <div class="container-fluid position-relative nav-bar p-0">
     <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
         <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
-            <a href="{{ path('campify') }}" class="navbar-brand">
+            <a href="" class="navbar-brand">
                 <h1 class="m-0 text-primary"><span class="text-dark">CAMPIFY</span>TN</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -131,7 +132,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
-                    <a href="{{ path('campify') }}" class="nav-item nav-link ">Home</a>
+                    <a href="{{ path('cam_pify') }}" class="nav-item nav-link ">Home</a>
                     <a href="{{ path('about') }}" class="nav-item nav-link">About</a>
                     <a href="{{ path('article_client') }}" class="nav-item nav-link"> Tour Shop</a>
                     <a href="{{ path('service') }}" class="nav-item nav-link">Services</a>
@@ -147,65 +148,77 @@
         </nav>
     </div>
 </div>
-{% block body %}
+<!-- Navbar End -->{% block body %}
     <div class="container pt-5 pb-3">
         <div class="text-center mb-3 pb-3">
             <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Cart</h6>
             <h1>Add To Cart</h1>
         </div>
+
         {% if cart is empty %}
             <div class="alert alert-warning text-center" role="alert">
                 Votre panier est vide.
             </div>
         {% else %}
-            <table class="table table-striped table-bordered">
-                <thead class="thead-light">
-                <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% set totalGeneral = 0 %}
-                {% for item in cart %}
+            <div class="bg-white shadow-sm rounded-lg p-4">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
                     <tr>
-                        <td>
-                            <div style="display: flex; align-items: center;">
-                                {% if item.article.photo %}
-                                    <img src="{{ asset('uploads/photos/' ~ item.article.photo) }}" alt="{{ item.article.name }}" width="50" style="margin-right: 15px;">
-                                {% else %}
-                                    <span>No Photo</span>
-                                {% endif %}
-                                <span>{{ item.article.name }}</span>
-                            </div>
-                        </td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.article.prix | number_format(2, ',', ' ') }} TND</td>
-                        <td>{{ (item.article.prix * item.quantity) | number_format(2, ',', ' ') }} TND</td>
-                       <td><a href="{{ path('cart_remove', {id: item.article.id}) }}" ><i class="fa-solid fa-trash-can custom-trash"></i></a></td>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
                     </tr>
-                    {% set totalGeneral = totalGeneral + (item.article.prix * item.quantity) %}
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="3" class="text-right"><strong>Total Amount</strong></td>
-                    <td>
-                        {{ totalGeneral | number_format(2, ',', ' ') }} TND
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% set totalGeneral = 0 %}
+                    {% for item in cart %}
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    {% if item.article.photo %}
+                                        <img src="{{ asset('uploads/photos/' ~ item.article.photo) }}" alt="{{ item.article.name }}" width="50" style="margin-right: 15px;">
+                                    {% else %}
+                                        <span>No Photo</span>
+                                    {% endif %}
+                                    <span>{{ item.article.name }}</span>
+                                </div>
+                            </td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.article.prix | number_format(2, ',', ' ') }} TND</td>
+                            <td>{{ (item.article.prix * item.quantity) | number_format(2, ',', ' ') }} TND</td>
+                            <td class="text-center">
+                                <a href="{{ path('cart_remove', {id: item.article.id}) }}">
+                                    <i class="fa-solid fa-trash-can custom-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% set totalGeneral = totalGeneral + (item.article.prix * item.quantity) %}
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right"><strong>Total Amount</strong> </td>
+                        <td colspan="2">
+                            {{ totalGeneral | number_format(2, ',', ' ') }} TND
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
 
+                <!-- Passer la commande Button Below Table -->
+                <div class="d-flex justify-content-end mt-4">
+                    <form action="{{ path('app_login') }}" method="get">
+                        <button type="submit" class="btn btn-primary" id="passer">Confirm Order</button>
+                    </form>
+                </div>
+
+
+            </div>
         {% endif %}
     </div>
 {% endblock %}
-
-<a href="{{ path('app_login') }}" class="btn btn-primary btn-lg" id="passer">Passer la commande</a>
-
 
 
 

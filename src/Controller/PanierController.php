@@ -60,4 +60,27 @@ class PanierController extends AbstractController
 
         return $this->redirectToRoute('cart');
     }
+
+    #[Route('/admin/orders', name: 'admin_orders')]
+    public function listOrders(SessionInterface $session, ArticleRepository $articleRepository): Response
+    {
+        $cart = $session->get('cart', []);
+
+        // Récupérer les articles du panier
+        $cartWithDetails = [];
+        foreach ($cart as $id => $quantity) {
+            $article = $articleRepository->find($id);
+            if ($article) {
+                $cartWithDetails[] = [
+                    'article' => $article,
+                    'quantity' => $quantity,
+                ];
+            }
+        }
+
+        return $this->render('admin/orders.html.twig', [
+            'cart' => $cartWithDetails,
+        ]);
+    }
+
 }

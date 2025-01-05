@@ -51,15 +51,14 @@
 <section class="menu-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="navbar-collapse collapse">
                     <ul id="menu-top" class="nav navbar-nav navbar-right">
                         <li><a href="{{ path('dashboard') }}" class="menu-top-active">DASHBOARD</a></li>
                         <li><a href="{{ path('article') }}">ADD PRODUCTS</a></li>
                         <li><a href="{{ path('articlelist') }}">PRODUCTS LIST</a></li>
                         <li><a href="{{ path('contactlist') }}">CONTACTS LIST</a></li>
-                        <li><a href="{{ path('dashboard') }}">LOCATIONS LIST</a></li>
-                        <li><a href="{{ path('dashboard') }}">ORDERS LIST</a></li>
+                        <li><a href="{{ path('admin_orders') }}">ORDERS LIST</a></li>
                         <li><a href="{{ path('app_user_list') }}">USERS LIST</a></li>
                     </ul>
                 </div>
@@ -79,9 +78,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <!-- Advanced Tables -->
-                <div class="panel panel-default">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         Products
                     </div>

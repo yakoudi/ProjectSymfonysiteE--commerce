@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -19,8 +19,23 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
     <!-- GOOGLE FONT -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+    <style>
+        .description-column {
+            max-width: 200px; /* Adjust as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+    <style>
+        .panel-heading{
+            margin-bottom: 30px;
+        }
+
+    </style>
 </head>
 <body>
+
 <div class="navbar navbar-inverse set-radius-zero">
     <div class="container">
         <div class="navbar-header">
@@ -33,6 +48,7 @@
                 <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" />
             </a>
         </div>
+
         <div class="right-div">
             <a href="#" class="btn btn-danger pull-right">LOG ME OUT</a>
         </div>
@@ -42,15 +58,14 @@
 <section class="menu-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="navbar-collapse collapse">
                     <ul id="menu-top" class="nav navbar-nav navbar-right">
                         <li><a href="{{ path('dashboard') }}" class="menu-top-active">DASHBOARD</a></li>
                         <li><a href="{{ path('article') }}">ADD PRODUCTS</a></li>
                         <li><a href="{{ path('articlelist') }}">PRODUCTS LIST</a></li>
                         <li><a href="{{ path('contactlist') }}">CONTACTS LIST</a></li>
-                        <li><a href="{{ path('dashboard') }}">LOCATIONS LIST</a></li>
-                        <li><a href="{{ path('dashboard') }}">ORDERS LIST</a></li>
+                        <li><a href="{{ path('admin_orders') }}">ORDERS LIST</a></li>
                         <li><a href="{{ path('app_user_list') }}">USERS LIST</a></li>
                     </ul>
                 </div>
@@ -63,53 +78,55 @@
     <div class="container">
         <div class="row pad-botm">
             <div class="col-md-12">
-                <h4 class="header-line">LOCATION LIST</h4>
-            </div>
-        </div>
-        <!-- /. ROW  -->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Striped Rows Table -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Locations
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                <h4 class="header-line"> Orders List</h4>
+
+                <div class="row" style="margin-top: 40px">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                Orders List
+                            </div>
+                              <div class="panel-body">
+                                {% if cart is empty %}
+                                    <div class="alert alert-warning text-center" role="alert">
+                                        Aucun article dans les paniers.
+                                    </div>
+                                {% else %}
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Quantité</th>
+                                            <th>Prix Unitaire</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set totalGeneral = 0 %}
+                                        {% for item in cart %}
+                                            <tr>
+                                                <td>{{ item.article.name }}</td>
+                                                <td>{{ item.quantity }}</td>
+                                                <td>{{ item.article.prix | number_format(2, ',', ' ') }} TND</td>
+                                                <td>{{ (item.article.prix * item.quantity) | number_format(2, ',', ' ') }} TND</td>
+                                            </tr>
+                                            {% set totalGeneral = totalGeneral + (item.article.prix * item.quantity) %}
+                                        {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <td colspan="3" class="text-right"><strong>Total Général</strong></td>
+                                            <td>{{ totalGeneral | number_format(2, ',', ' ') }} TND</td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                {% endif %}
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <!-- End Striped Rows Table -->
+                <!--End Advanced Tables -->
             </div>
         </div>
     </div>
@@ -123,6 +140,7 @@
             </div>
         </div>
     </div>
+
 </section>
 <!-- FOOTER SECTION END-->
 <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME -->
